@@ -14,7 +14,10 @@ const PORT = process.env.PORT || 5000;
 //parser tp parse json body
 app.use(
   cors({
-    origin: "http://localhost:5173", // Your React app's origin
+    origin: [
+      "http://localhost:5173",
+      "https://exitintent-frontend.onrender.com",
+    ],
     credentials: true, // If you're using cookies/sessions
   })
 );
