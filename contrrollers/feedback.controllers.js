@@ -2,9 +2,12 @@ import Feedback from "../models/feedback.model.js";
 import nodemailer from "nodemailer";
 export const feedbackController = async (req, res) => {
   //collect data
-  const { checkbox } = req.body;
+  const { checkbox, comments } = req.body;
   //check if array or not
   const reasonArray = Array.isArray(checkbox) ? checkbox : [checkbox];
+  if (comments) {
+    reasonArray.push(comments);
+  }
   //create and save database
   try {
     const feedback = await Feedback.create({ reason: reasonArray });
