@@ -1,5 +1,5 @@
 import Feedback from "../models/feedback.model.js";
-
+import nodemailer from "nodemailer";
 export const feedbackController = async (req, res) => {
   //collect data
   const { checkbox } = req.body;
@@ -8,9 +8,26 @@ export const feedbackController = async (req, res) => {
   //create and save database
   try {
     const feedback = await Feedback.create({ reason: reasonArray });
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "kumarvijayy036@gmail.com", // Your Gmail address
+        pass: "nhnd uztr spej myec", // Use an app password or your email password
+      },
+    });
+    const mailOptions = {
+      from: "kumarvijayy036@gmail.com",
+      to: "vishaala999111@gmail.com", // Where you want to receive notifications
+      subject: "New Form Submission of reasons",
+      text: `You have a new form submission of reason`,
+    };
+
+    // Use async/await for sending mail
+    await transporter.sendMail(mailOptions);
 
     res.status(200).json({ success: true, feedback: feedback.reason });
-  } catch (err) {
+  } catch (error) {
+    console.error("Error in feedbackController:", error);
     res.status(500).json({ error: "Server error" });
   }
 };

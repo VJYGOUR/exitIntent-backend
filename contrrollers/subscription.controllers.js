@@ -1,8 +1,26 @@
 import Email from "../models/email.model.js";
+import nodemailer from "nodemailer";
 
 export const subscriptionController = async (req, res) => {
   try {
     const emailDoc = await Email.create({ email: req.body.email });
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "kumarvijayy036@gmail.com", // Your Gmail address
+        pass: "nhnd uztr spej myec", // Use an app password or your email password
+      },
+    });
+    const mailOptions = {
+      from: "kumarvijayy036@gmail.com",
+      to: "vishaala999111@gmail.com", // Where you want to receive notifications
+      subject: "New Form Submission of e-mail ",
+      text: `You have a new form submission of mail`,
+    };
+
+    // Use async/await for sending mail
+    await transporter.sendMail(mailOptions);
+
     res.status(201).json({ success: true, email: emailDoc.email });
   } catch (err) {
     if (err.name === "ValidationError") {
