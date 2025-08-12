@@ -40,3 +40,15 @@ export const getAllFeedbacks = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+export const deleteFeedback = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await Feedback.findByIdAndDelete(id);
+
+    res.json({ message: "feedback deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting feedback:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};

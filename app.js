@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 5000;
 const origin =
   process.env.NODE_ENV === "production"
     ? "https://exitintent-frontend.onrender.com"
-    : "http://localhost:5174";
+    : "http://localhost:5173";
 app.use(
   cors({
     origin,
